@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+}
+
+main {
+    margin: 16px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    background: rebeccapurple;
+    color: white;
+    font-family: Helvetica;
+    font-weight: 300;
+}
+
+.navbar__title {
+    margin-right: auto;
+    font-size: 150%;
+    padding: 12px 16px;
+}
+
+.navbar__item {
+    padding: 16px 16px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+/* Style for navigation links with increased specificity */
+.navbar__item > a {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s;
+}
+
+.navbar__item > a:hover {
+    color: lightgray;
+}

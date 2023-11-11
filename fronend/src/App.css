@@ -1,38 +1,119 @@
-.App {
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color:#EFEBE9;
+  box-sizing: border-box;
+}
+
+.loading-skeleton-card {
+  background: #f0f0f0;
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  margin: 10px;
+}
+
+.skeleton-title {
+  height: 20px;
+  width: 80%;
+  background: #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.skeleton-image {
+  height: 200px;
+  background: #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.skeleton-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.skeleton-button {
+  height: 40px;
+  width: 48%;
+  background: #e0e0e0;
+  margin-top: 10px;
+}
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 24px;
+  color: #007bff; /* Change the color as needed */
+}
+
+h1, h2 {
+  margin: 0;
+  font-family: Montserrat, sans-serif;
+  text-align: left;
+}
+h2 {
+  color: #9E9E9E;
+  font-style: italic;
+  font-size: 15px;
+}
+/* .card {
+  background-color: #FFFFFF;
+  margin: 50px auto;
+  max-width: 400px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 10px 10px 30px #BDBDBD;
+}
+.card__image {
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  max-height: 200px;
+}
+.card__copy {
+  padding: 20px;
+} */
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  width: 300px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.card img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.card h2 {
+  margin: 10px 0;
+  font-size: 1.2em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.card-buttons {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
 }
 
-.App-link {
-  color: #61dafb;
+.favorite-button,
+.details-button {
+  background-color: #0c2c27;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.favorite-button:hover,
+.details-button:hover {
+  background-color: #0056b3;
 }

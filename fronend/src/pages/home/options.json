@@ -1,0 +1,14 @@
+{
+    "cousine":[
+        {
+        "id":1,
+        "name":"African"
+    },{
+        "id":2,
+        "name":"Asian"
+    },{
+        "id":3,
+        "name":"American"
+    }
+]
+}

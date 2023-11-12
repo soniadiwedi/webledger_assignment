@@ -101,7 +101,7 @@ const Home = () => {
         <select name="" id="" onChange={(e)=>{setFilter(e.target.value)}}>
           <option value="">Pls Select Your Favourite Cuisine.</option>
           {cousines.map((item)=>{
-           return <option key={item} value={item}>{item}</option>
+           return <option key={item + Math.random()} value={item}>{item}</option>
           })}
         </select>
       </div>

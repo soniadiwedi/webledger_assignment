@@ -6,7 +6,7 @@ const { authenticateToken } = require('../middleware/authMiddleware');
 recipeRouter.get('/find',BasicRecipesController)
 
 // Route For Getting A Specific Recepie By ID & Get Additional Details About The Recepies.
-recipeRouter.post('/recipes/:id',getAdditionalRecepieInformation);
+recipeRouter.get('/recipes/:id',getAdditionalRecepieInformation);
 
 // Route For Saving The Favourite Recepies 
 recipeRouter.post('/recipes/save',authenticateToken, saveRecipeController);

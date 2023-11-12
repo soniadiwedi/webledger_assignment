@@ -4,7 +4,9 @@ import "./auth.css";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+   const navigate = useNavigate();
   const [inp, setInp] = useState({ name: "", email: "", password: "" });
 
   const handleInput = (e) => {
@@ -22,11 +24,18 @@ const Login = () => {
         `http://localhost:8080/api/auth/login`,
         inp
       );
-      console.log("res", res.data.message);
+      console.log("response ",res);
+     let token=res.data.token
+     let user = res.data.user
+     localStorage.setItem("token",JSON.stringify(token))
+     localStorage.setItem("user",JSON.stringify(user))
       toast.success(res.data.message, {
         position: "top-right", 
         autoClose: 3000, 
       });
+      setTimeout(() => {
+        navigate("/")
+      }, 5000);
     } catch (err) {
       toast.error("An error occurred. Please try again.", {
         position: "top-right", 

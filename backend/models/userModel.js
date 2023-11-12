@@ -16,7 +16,9 @@ const userSchema = new mongoose.Schema(
       unique: false,
       required: true
     },
- 
+    favourite:{
+      type:Object
+    }
   },
   {
     timestamps: true,

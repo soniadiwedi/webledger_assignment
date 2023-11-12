@@ -33,13 +33,12 @@ exports.getAdditionalRecepieInformation = async (req, res) => {
   try {
     let id = req.params.id;
     const apiKey = process.env.API_KEY;
-    // const baseUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}`;
+   
     const baseUrl = `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${apiKey}`;
-
     const response = await axios.get(baseUrl);
-    // console.log(response.data);
     if (response.data) {
-      const recipes = response.data.results;
+      console.log("response data ",response.data);
+      const recipes = response.data;
       res.status(200).json({
         data: recipes,
         number: response.data.number,

@@ -32,7 +32,7 @@ exports.createUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      
+      favourite:[]
     });
     await userData.save();
     return res.status(201).json({
@@ -79,6 +79,7 @@ exports.loginUser = async (req, res) => {
       success: true,
       message: "Login successful",
       token: token,
+      user:user
     });
   } catch (error) {
     console.error(colors.red("Error: ", error.message));

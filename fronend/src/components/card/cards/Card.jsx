@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { FaHeart, FaInfo } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-const Card = ({ image, title }) => {
+const Card = (props) => {
+  const navigate = useNavigate();
+  const { image, title } = props;
+  console.log("recipe properties ", props);
   const [fav, setFav] = useState([]);
 
   const handleAddFav = async () => {
@@ -17,7 +21,12 @@ const Card = ({ image, title }) => {
       <img src={image} alt={title} />
       <h2>{title}</h2>
       <div className="card-buttons">
-        <button className="favorite-button">
+        <button
+          className="favorite-button"
+          onClick={() => {
+            navigate(`/${props.id}`);
+          }}
+        >
           <FaInfo />
           Details
         </button>

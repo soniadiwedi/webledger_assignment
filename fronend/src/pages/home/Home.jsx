@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Card from "../../components/card/cards/Card";
 import Search from "../../components/card/search/Search";
+import { baseurl } from "../../basedata";
 
 const Home = () => {
   const [recipes, setRecipes] = useState([]);
@@ -73,7 +74,7 @@ const Home = () => {
     setLoading(true);
     try {
       let res = await axios.get(
-        `http://localhost:8080/api/food/find?search=${search}&filter=${filter}`
+        `${baseurl}/food/find?search=${search}&filter=${filter}`
       );
       setRecipes(res.data.data);
       setLoading(false);

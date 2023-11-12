@@ -9,18 +9,37 @@ const RecipeDetails = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [instruction,setInstruction] = useState("")
+  const [instruction, setInstruction] = useState("");
   const [fav, setFav] = useState([]);
 
   const handleAddFav = async () => {
-    try {
-      let res=await axios.post(`${baseurl}/food/recipes/save`,{
-        data
+    const token = JSON.parse(localStorage.getItem("token"));
+    const user = JSON.parse(localStorage.getItem("user"));
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+      userId: user._id,
+    };
+
+    axios
+      .post(`${baseurl}/food/recipes/save`, data, {
+        headers: headers,
       })
-      console.log(res)
-    } catch (err) {
-      console.log(err);
-    }
+      .then((response) => {
+        console.log("respone on adding favourite", response);
+      })
+      .catch((error) => {
+        console.log("respone on adding favourite error", error);
+      });
+
+    //   try {
+    //     let res = await axios.post(`${baseurl}/food/recipes/save`, {
+    //       data,
+    //     });
+    //     console.log(res);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
   };
   useEffect(() => {
     getRecipeData();
@@ -31,55 +50,54 @@ const RecipeDetails = () => {
     try {
       const res = await axios.get(`${baseurl}/food/recipes/${id}`);
       setData(res.data.data);
-      setInstruction(res.data.data.analyzedInstructions[0])
+      setInstruction(res.data.data.analyzedInstructions[0]);
       setLoading(false);
     } catch (err) {
       setLoading(false);
       setError(true);
     }
   };
- 
+
   return loading ? (
     <div>Loading...</div>
   ) : error ? (
     <div>Error in Backend</div>
   ) : (
     <>
-    
-    <div>
-      <h1>data</h1>
-      <img src={data.image} alt={data.name} style={{ maxWidth: "100%" }} />
       <div>
-        <h2>Ingredients:</h2>
-        <ul>
-          {data?.nutrition?.ingredients.map((ingredient, index) => (
-            <li key={index}>{ingredient.name}</li>
+        <h1>data</h1>
+        <img src={data.image} alt={data.name} style={{ maxWidth: "100%" }} />
+        <div>
+          <h2>Ingredients:</h2>
+          <ul>
+            {data?.nutrition?.ingredients.map((ingredient, index) => (
+              <li key={index}>{ingredient.name}</li>
             ))}
-        </ul>
+          </ul>
+        </div>
+        <div>
+          <h2>Nutrients:</h2>
+          <ol>
+            {data?.nutrition?.nutrients?.map((instruction, index) => (
+              <li key={index}>{instruction.name}</li>
+            ))}
+          </ol>
+        </div>
+        <div>
+          {instruction !== "" &&
+            instruction?.steps.map((el, i) => {
+              return <p>{el.step}</p>;
+            })}
+        </div>
       </div>
       <div>
-        <h2>Nutrients:</h2>
-        <ol>
-          {data?.nutrition?.nutrients?.map((instruction, index) => (
-            <li key={index}>{instruction.name}</li>
-            ))}
-        </ol>
-      </div>
-       <div>
-          {instruction!=="" && instruction?.steps.map((el,i)=>{
-           return <p>{el.step}</p>
-        })}  
-      </div> 
-    </div>
-    <div>
-    <button className="details-button" onClick={handleAddFav}>
+        <button className="details-button" onClick={handleAddFav}>
           <FaHeart className="favorite-icon" />
           Favorite
         </button>
-    </div>
-            </>
+      </div>
+    </>
   );
-  
 };
 
 export default RecipeDetails;

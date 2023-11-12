@@ -4,19 +4,15 @@ const foodPreferenceSchema = new mongoose.Schema({
   id: {
     type: Number,
     unique: true,
-    required: true,
   },
   title: {
     type: String,
-    required: true,
   },
   image: {
     type: String,
-    required: true,
   },
   imageType: {
     type: String,
-    required: true,
   },
 });
 

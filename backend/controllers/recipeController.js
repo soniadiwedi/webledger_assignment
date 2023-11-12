@@ -1,7 +1,7 @@
 const axios = require("axios");
 require("dotenv").config();
 
-const { recipeModel } = require("../models/recipeModel");
+const { recipeModel, userModel } = require("../models/recipeModel");
 
 exports.BasicRecipesController = async (req, res) => {
   try {
@@ -33,11 +33,10 @@ exports.getAdditionalRecepieInformation = async (req, res) => {
   try {
     let id = req.params.id;
     const apiKey = process.env.API_KEY;
-   
+
     const baseUrl = `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${apiKey}`;
     const response = await axios.get(baseUrl);
     if (response.data) {
-      console.log("response data ",response.data);
       const recipes = response.data;
       res.status(200).json({
         data: recipes,
@@ -59,41 +58,16 @@ exports.getAdditionalRecepieInformation = async (req, res) => {
 exports.saveRecipeController = async (req, res) => {
   try {
     const payload = req.body;
-    const user = req.userId;
-
-    const existingRecipes = await recipeModel.findOne({ userId: user });
-
-    if (!existingRecipes) {
-      // If the user has no existing saved recipes, create a new document
-      const newData = new recipeModel({
-        userId: user,
-        foodPreference: [payload],
-      });
-      await newData.save();
-    } else {
-      // If the user has existing saved recipes, check if the new recipe already exists
-      const recipeExists = existingRecipes.foodPreference.some(
-        (recipe) => recipe.id === payload.id
-      );
-
-      if (recipeExists) {
-        return res.status(401).json({
-          status: 401,
-          success: false,
-          message: "User Preference Food Already Saved",
-        });
-      }
-
-      // If the recipe doesn't exist, add it to the foodPreference array
-      existingRecipes.foodPreference.push(payload);
-      await existingRecipes.save();
+    const id = req.params
+    const userId = req.headers.userid;
+    console.log("testing ",payload, "user id", userid,"id ",id );
+    try {
+      const user = await userModel.findOne({_id:userId})
+      console.log("user found ",user);
+      res.status(200).send({ msg: "User Details Updated" });
+    } catch (error) {
+      res.status(400).send({ msg: error.message, ids:id });
     }
-
-    return res.status(200).json({
-      status: 200,
-      success: true,
-      message: "User Preference Saved Successfully",
-    });
   } catch (error) {
     return res.status(500).json({
       message: error.message,
@@ -125,3 +99,37 @@ exports.getSaveReceipeDeatailsByUser = async (req, res) => {
     });
   }
 };
+
+// const existingRecipes = await recipeModel.findOne({ _id: user });
+
+// if (!existingRecipes) {
+//   // If the user has no existing saved recipes, create a new document
+//   const newData = new recipeModel({
+//     userId: user,
+//     foodPreference: [payload],
+//   });
+//   await newData.save();
+// } else {
+//   // If the user has existing saved recipes, check if the new recipe already exists
+//   const recipeExists = existingRecipes.foodPreference.some(
+//     (recipe) => recipe.id === payload.id
+//   );
+
+//   if (recipeExists) {
+//     return res.status(401).json({
+//       status: 401,
+//       success: false,
+//       message: "User Preference Food Already Saved",
+//     });
+//   }
+
+//   // If the recipe doesn't exist, add it to the foodPreference array
+//   existingRecipes.foodPreference.push(payload);
+//   await existingRecipes.save();
+// }
+
+// return res.status(200).json({
+//   status: 200,
+//   success: true,
+//   message: "User Preference Saved Successfully",
+// });

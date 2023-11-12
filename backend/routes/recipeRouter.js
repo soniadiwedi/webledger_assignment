@@ -9,7 +9,7 @@ recipeRouter.get('/find',BasicRecipesController)
 recipeRouter.get('/recipes/:id',getAdditionalRecepieInformation);
 
 // Route For Saving The Favourite Recepies 
-recipeRouter.post('/recipes/save',authenticateToken, saveRecipeController);
+recipeRouter.post('/recipes/save/:id', saveRecipeController);
 
 recipeRouter.get('/recipes_by_user',authenticateToken, getSaveReceipeDeatailsByUser);
 

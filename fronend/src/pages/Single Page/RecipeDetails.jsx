@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { baseurl } from "../../basedata";
-import { FaHeart, FaInfo } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import "./Recipe.css"; // Create a RecipeDetails.css file for styling
 
 const RecipeDetails = () => {
   const { id } = useParams();
@@ -10,40 +11,31 @@ const RecipeDetails = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [instruction, setInstruction] = useState("");
-  const [fav, setFav] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  const handleAddFav = async () => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    const user = JSON.parse(localStorage.getItem("user"));
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: token,
-      userId: user._id,
-    };
-
-    axios
-      .post(`${baseurl}/food/recipes/save`, data, {
-        headers: headers,
-      })
-      .then((response) => {
-        console.log("respone on adding favourite", response);
-      })
-      .catch((error) => {
-        console.log("respone on adding favourite error", error);
-      });
-
-    //   try {
-    //     let res = await axios.post(`${baseurl}/food/recipes/save`, {
-    //       data,
-    //     });
-    //     console.log(res);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-  };
   useEffect(() => {
     getRecipeData();
   }, []);
+
+  const saveRecipeToFavorite = async (userId, favId) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: token,
+    };
+
+    try {
+      const response = await axios.post(
+        `${baseurl}/fav/${favId}`,
+        { data },
+        { headers: headers }
+      );
+
+      console.log("Response on adding favorite", response);
+    } catch (error) {
+      console.log("Error on adding favorite", error);
+    }
+  };
 
   const getRecipeData = async () => {
     setLoading(true);
@@ -58,45 +50,58 @@ const RecipeDetails = () => {
     }
   };
 
-  return loading ? (
-    <div>Loading...</div>
-  ) : error ? (
-    <div>Error in Backend</div>
-  ) : (
-    <>
-      <div>
-        <h1>data</h1>
-        <img src={data.image} alt={data.name} style={{ maxWidth: "100%" }} />
-        <div>
-          <h2>Ingredients:</h2>
-          <ul>
-            {data?.nutrition?.ingredients.map((ingredient, index) => (
-              <li key={index}>{ingredient.name}</li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h2>Nutrients:</h2>
-          <ol>
-            {data?.nutrition?.nutrients?.map((instruction, index) => (
-              <li key={index}>{instruction.name}</li>
-            ))}
-          </ol>
-        </div>
-        <div>
-          {instruction !== "" &&
-            instruction?.steps.map((el, i) => {
-              return <p>{el.step}</p>;
-            })}
-        </div>
-      </div>
-      <div>
-        <button className="details-button" onClick={handleAddFav}>
-          <FaHeart className="favorite-icon" />
-          Favorite
-        </button>
-      </div>
-    </>
+  return (
+    <div className="recipe-details-container">
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error in Backend</div>
+      ) : (
+        <>
+          <div className="recipe-header">
+            <img src={data.image} alt={data.name} className="recipe-image" />
+          </div>
+
+          <div className="recipe-content">
+            <div className="ingredients">
+              <h2>Ingredients</h2>
+              <ul>
+                {data?.nutrition?.ingredients.map((ingredient, index) => (
+                  <li key={index}>{ingredient.name}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="nutrients">
+              <h2>Nutrients</h2>
+              <ul>
+                {data?.nutrition?.nutrients
+                  ?.slice(0, 10)
+                  .map((instruction, index) => (
+                    <li key={index}>{instruction.name}</li>
+                  ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="recipe-steps">
+            <h2>Instructions</h2>
+            {instruction !== "" &&
+              instruction?.steps.map((el, i) => (
+                <p key={i} className="step">
+                  <span className="step-number">Step {i + 1}:</span> {el.step}
+                </p>
+              ))}
+          </div>
+
+          <div className="favorite-button-container">
+            <button className="details-button" onClick={() => saveRecipeToFavorite(user._id, id)}>
+              <FaHeart className="favorite-icon" />
+              Add to Favorites
+            </button>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 

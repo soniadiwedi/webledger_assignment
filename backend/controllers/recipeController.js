@@ -1,7 +1,8 @@
 const axios = require("axios");
+const { FavoriteModel } = require("../models/FavoriteModel");
 require("dotenv").config();
 
-const { recipeModel, userModel } = require("../models/recipeModel");
+
 
 exports.BasicRecipesController = async (req, res) => {
   try {
@@ -55,50 +56,72 @@ exports.getAdditionalRecepieInformation = async (req, res) => {
   }
 };
 
-exports.saveRecipeController = async (req, res) => {
+ exports.addFavorites=async(req,res)=>{
+  const {userId}= req.body;
+  const {favId}= req.params;
   try {
-    const payload = req.body;
-    const id = req.params
-    const userId = req.headers.userid;
-    console.log("testing ",payload, "user id", userid,"id ",id );
-    try {
-      const user = await userModel.findOne({_id:userId})
-      console.log("user found ",user);
-      res.status(200).send({ msg: "User Details Updated" });
-    } catch (error) {
-      res.status(400).send({ msg: error.message, ids:id });
-    }
+      const status= await FavoriteModel.findOne({userId});
+      if(!status){
+          const isSaved= new FavoriteModel({userId,favorites:[favId]});
+          await isSaved.save();
+      }else{
+          await FavoriteModel.findOneAndUpdate({userId},{
+              $push:{favorites:favId}
+          })
+      }
+      return res.status(201).json({msg:isSaved})
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
+      
   }
-};
+}
 
-exports.getSaveReceipeDeatailsByUser = async (req, res) => {
-  try {
-    const userId = req.userId;
-    const ifExist = await recipeModel.findOne({ userId });
-    if (!ifExist) {
-      return res.status(401).json({
-        status: 401,
-        success: false,
-        message: "You don't have any preferences",
-      });
-    }
 
-    return res.status(200).json({
-      status: 200,
-      success: true,
-      message: "Preference retrived successfully",
-      data: ifExist.foodPreference,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
-  }
-};
+
+
+// exports.saveRecipeController = async (req, res) => {
+//   try {
+//     const payload = req.body;
+//     const id = req.params
+//     const userId = req.headers.userid;
+//     console.log("testing ",payload, "user id", userid,"id ",id );
+//     try {
+//       const user = await userModel.findOne({_id:userId})
+//       console.log("user found ",user);
+//       res.status(200).send({ msg: "User Details Updated" });
+//     } catch (error) {
+//       res.status(400).send({ msg: error.message, ids:id });
+//     }
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: error.message,
+//     });
+//   }
+// };
+
+// exports.getSaveReceipeDeatailsByUser = async (req, res) => {
+//   try {
+//     const userId = req.userId;
+//     const ifExist = await recipeModel.findOne({ userId });
+//     if (!ifExist) {
+//       return res.status(401).json({
+//         status: 401,
+//         success: false,
+//         message: "You don't have any preferences",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       status: 200,
+//       success: true,
+//       message: "Preference retrived successfully",
+//       data: ifExist.foodPreference,
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       message: error.message,
+//     });
+//   }
+// };
 
 // const existingRecipes = await recipeModel.findOne({ _id: user });
 

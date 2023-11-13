@@ -1,39 +1,81 @@
+/* navbar.css */
+
 body {
     margin: 0;
-}
-
-main {
-    margin: 16px;
-}
-
-.navbar {
+    font-family: 'Arial', sans-serif;
+    background-color: #2a2a2a;
+  }
+  
+  .navbar {
+    background-color: #333;
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .navbar__title {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 1.8em;
+    font-weight: bold;
+  }
+  
+  .navbar__right {
     display: flex;
     align-items: center;
-    background: rebeccapurple;
-    color: white;
-    font-family: Helvetica;
-    font-weight: 300;
-}
-
-.navbar__title {
-    margin-right: auto;
-    font-size: 150%;
-    padding: 12px 16px;
-}
-
-.navbar__item {
-    padding: 16px 16px;
-    cursor: pointer;
-    vertical-align: middle;
-}
-
-/* Style for navigation links with increased specificity */
-.navbar__item > a {
+  }
+  
+  .navbar__user {
+    margin-right: 20px;
+    color: #ffffff;
+  }
+  
+  .navbar__user p {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .navbar__item {
+    margin: 0 15px;
     text-decoration: none;
-    color: white;
-    transition: color 0.3s;
-}
-
-.navbar__item > a:hover {
-    color: lightgray;
-}
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar__item:hover {
+    color: #4caf50;
+  }
+  
+  .navbar__heart-icon {
+    margin-right: 5px;
+    color: #e44d26;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .navbar__container {
+      flex-direction: column;
+    }
+  
+    .navbar__right {
+      margin-top: 10px;
+    }
+  
+    .navbar__user {
+      margin-bottom: 10px;
+    }
+  
+    .navbar__item {
+      margin: 10px 0;
+    }
+  }
+  

@@ -1,14 +1,15 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const colors = require("colors");
+const { UserModel } = require("../models/userModel");
 require("dotenv").config();
 
-const { userModel } = require("../models/userModel");
+
 
 exports.createUser = async (req, res) => {
   const { name, email, password } = req.body;
   try {
-    const userExist = await userModel.findOne({ email: email });
+    const userExist = await UserModel.findOne({ email: email });
 
     if (userExist) {
       return res.status(400).json({
@@ -28,7 +29,7 @@ exports.createUser = async (req, res) => {
       });
     }
 
-    const userData = new userModel({
+    const userData = new UserModel({
       name,
       email,
       password: hashedPassword,
@@ -51,7 +52,7 @@ exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
   const SECRET_KEY = process.env.SECRET_KEY;
   try {
-    const user = await userModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
 
     if (!user) {
       return res.status(401).json({

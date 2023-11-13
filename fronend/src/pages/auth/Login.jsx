@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import { FaGithub } from 'react-icons/fa';
 const Login = () => {
    const navigate = useNavigate();
   const [inp, setInp] = useState({ name: "", email: "", password: "" });
@@ -72,9 +73,12 @@ const Login = () => {
             <button onClick={handleLogin}>Log in</button>
           </form>
         </div>
-       <a href="https://github.com/login/oauth/authorize?client_id=e9fdb9c000e8ba656d91">
-         <button>Continue with GitHub</button>
-         </a>
+        <a href="https://github.com/login/oauth/authorize?client_id=e9fdb9c000e8ba656d91&scope=repo">
+      <div className="github-auth-button">
+        <FaGithub className="github-icon" />
+        Continue with GitHub
+      </div>
+    </a>
         <Register />
       </div>
     </div>

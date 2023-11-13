@@ -68,7 +68,7 @@ const Home = () => {
   ];
   useEffect(() => {
     getRecipeData();
-  }, [search,filter]);
+  }, [search, filter]);
 
   const getRecipeData = async () => {
     setLoading(true);
@@ -76,6 +76,7 @@ const Home = () => {
       let res = await axios.get(
         `${baseurl}/food/find?search=${search}&filter=${filter}`
       );
+       
       setRecipes(res.data.data);
       setLoading(false);
     } catch (err) {
@@ -93,20 +94,42 @@ const Home = () => {
   return (
     <>
       <div>
-        <Search
-          search={search}
-          setSearch={setSearch}
-          handleInput={handleInput}
-        />
-        <select name="" id="" onChange={(e)=>{setFilter(e.target.value)}}>
-          <option value="">Pls Select Your Favourite Cuisine.</option>
-          {cousines.map((item)=>{
-           return <option key={item + Math.random()} value={item}>{item}</option>
-          })}
-        </select>
+        <div style={{ margin: "20px", display: "flex" ,justifyContent:"center"}}>
+          <Search
+            search={search}
+            setSearch={setSearch}
+            handleInput={handleInput}
+          />
+
+          <div >
+            <select
+             style={{
+              width: '250px', 
+              height: '30px', 
+              margin:"20px"
+      
+            }}
+              name=""
+              id=""
+              onChange={(e) => {
+                setFilter(e.target.value);
+              }}
+            >
+              <option value="">Pls Select Your Favourite Cuisine.</option>
+              {cousines.map((item) => {
+                return (
+                  <option key={item + Math.random()} value={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        </div>
       </div>
       <div
         style={{
+        
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",
           gap: "20px",

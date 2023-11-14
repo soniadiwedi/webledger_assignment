@@ -5,14 +5,15 @@ import { baseurl } from "../../../basedata";
 
 const Card = (props) => {
   const navigate = useNavigate();
-  const { image, title } = props;
+  const { image, title,button } = props;
 
 
   return (
     <div className="card">
       <img src={image} alt={title} />
       <h2>{title}</h2>
-      <div className="card-buttons">
+      { button&&
+        <div className="card-buttons">
         <button
           className="favorite-button"
           onClick={() => {
@@ -23,7 +24,7 @@ const Card = (props) => {
           Details
         </button>
         
-      </div>
+      </div>}
     </div>
   );
 };

@@ -106,8 +106,8 @@ const Home = () => {
              style={{
               width: '250px', 
               height: '30px', 
-              margin:"20px"
-      
+              margin:"20px",
+              textAlign:"center"
             }}
               name=""
               id=""
@@ -115,7 +115,7 @@ const Home = () => {
                 setFilter(e.target.value);
               }}
             >
-              <option value="">Pls Select Your Favourite Cuisine.</option>
+              <option value="">Select Your Favourite Cuisine.</option>
               {cousines.map((item) => {
                 return (
                   <option key={item + Math.random()} value={item}>
@@ -149,7 +149,7 @@ const Home = () => {
         ) : (
           recipes?.map((recipe) => (
             <div key={recipe.id}>
-              <Card {...recipe} />
+              <Card {...recipe} button={true} />
             </div>
           ))
         )}

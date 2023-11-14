@@ -3,7 +3,10 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { baseurl } from "../../basedata";
 import { FaHeart } from "react-icons/fa";
-import "./Recipe.css"; // Create a RecipeDetails.css file for styling
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import "./Recipe.css"; 
+import Fovorite from "../favorite/Fovorite";
 
 const RecipeDetails = () => {
   const { id } = useParams();
@@ -11,13 +14,12 @@ const RecipeDetails = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [instruction, setInstruction] = useState("");
-  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     getRecipeData();
   }, []);
 
-  const saveRecipeToFavorite = async (userId, favId) => {
+  const saveRecipeToFavorite = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
     const headers = {
       "Content-Type": "application/json",
@@ -26,14 +28,16 @@ const RecipeDetails = () => {
 
     try {
       const response = await axios.post(
-        `${baseurl}/fav/${favId}`,
-        { data },
+        `${baseurl}/food/recipes/save`,
+        { id:data.id,image:data.image,title:data.title },
         { headers: headers }
       );
 
       console.log("Response on adding favorite", response);
+      toast.success("Recipe added to favorites successfully!")
     } catch (error) {
       console.log("Error on adding favorite", error);
+      toast.error("Error adding recipe to favorites. Please try again.")
     }
   };
 
@@ -94,11 +98,13 @@ const RecipeDetails = () => {
           </div>
 
           <div className="favorite-button-container">
-            <button className="details-button" onClick={() => saveRecipeToFavorite(user._id, id)}>
+            <button className="details-button" onClick={() => saveRecipeToFavorite()}>
               <FaHeart className="favorite-icon" />
               Add to Favorites
             </button>
           </div>
+
+         
         </>
       )}
     </div>

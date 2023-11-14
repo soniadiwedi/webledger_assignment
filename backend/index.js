@@ -6,7 +6,7 @@ const { dbConnection } = require("./configs/db");
 const { recipeRouter } = require("./routes/recipeRouter");
 const { userRouter } = require("./routes/userRouter");
 const { userModel } = require("./models/userModel");
-const favoriteRouter = require("./routes/favoriteRouter");
+
 
 require("dotenv").config();
 
@@ -18,51 +18,51 @@ app.use(cors());
 // app.use("/",(req,res)=>{
 //     res.send("Home Page")
 // })
-app.get("/login", (req, res) => {
-  res.sendFile("../frontend/src/pages/auth/Login");
-});
+// app.get("/login", (req, res) => {
+//   res.sendFile("../frontend/src/pages/auth/Login");
+// });
 
 
-app.get("/auth/github", async (req, res) => {
-  const { code } = req.query;
-  try {
-    const response = await axios.post(
-      'https://github.com/login/oauth/access_token',
-      {
-        client_id: process.env.CLIENT_ID,
-        client_secret: process.env.CLIEND_SECRET,
-        code,
-      },
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    const user=await axios.get(`https://api.github.com/user`,{
-        headers:{
-            Authorization:`Bearer ${response.data.access_token}`
-        }
-    })
-    const savedUser = await userModel.create({
+// app.get("/auth/github", async (req, res) => {
+//   const { code } = req.query;
+//   try {
+//     const response = await axios.post(
+//       'https://github.com/login/oauth/access_token',
+//       {
+//         client_id: process.env.CLIENT_ID,
+//         client_secret: process.env.CLIEND_SECRET,
+//         code,
+//       },
+//       {
+//         headers: {
+//           Accept: 'application/json',
+//           'Content-Type': 'application/json',
+//         },
+//       }
+//     );
+//     const user=await axios.get(`https://api.github.com/user`,{
+//         headers:{
+//             Authorization:`Bearer ${response.data.access_token}`
+//         }
+//     })
+//     const savedUser = await userModel.create({
        
-        name: user.data.login,
+//         name: user.data.login,
       
-        // Add other relevant user details
-      });
+//         // Add other relevant user details
+//       });
     
-    console.log("user",savedUser);
-    res.send("Sign in with Github Successful");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
-  }
-});
+//     console.log("user",savedUser);
+//     res.send("Sign in with Github Successful");
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
 
 app.use("/api/auth", userRouter);
 app.use("/api/food", recipeRouter);
-app.use("/api/fav",favoriteRouter)
+// app.use("/api/fav",)
 
 app.listen(port, async () => {
   try {

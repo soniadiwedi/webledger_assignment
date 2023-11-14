@@ -25,7 +25,7 @@ const Login = () => {
         `http://localhost:8080/api/auth/login`,
         inp
       );
-      console.log("response ",res);
+      console.log("response ",res.data);
      let token=res.data.token
      let user = res.data.user
      localStorage.setItem("token",JSON.stringify(token))

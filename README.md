@@ -33,3 +33,17 @@
     /api/food/recipes/:id  -> GET 
     Use a recipe id to get full information about a recipe, such as ingredients, nutrition, diet and allergen information.
 
+## UI
+![image](https://github.com/soniadiwedi/webledger_assignment/assets/112754761/b614bc7f-8fd3-4b7b-8510-7d546fe16581)
+
+![image](https://github.com/soniadiwedi/webledger_assignment/assets/112754761/6a169836-d689-47cd-8b42-8bc8a66b0074)
+
+![image](https://github.com/soniadiwedi/webledger_assignment/assets/112754761/bc59126a-a7dd-49ba-9b3b-1d93042f779c)
+
+![image](https://github.com/soniadiwedi/webledger_assignment/assets/112754761/97e02859-c9dd-410a-abdc-924736a4a03a)
+
+
+
+
+
+
